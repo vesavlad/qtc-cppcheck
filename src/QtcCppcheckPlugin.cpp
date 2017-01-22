@@ -269,7 +269,7 @@ QStringList QtcCppcheckPlugin::checkableFiles(const Node *node, bool forceSelect
   QStringList files;
   switch (node->nodeType ())
   {
-    case FileNodeType:
+    case NodeType::File:
     {
       const FileNode* file = (const FileNode*) node;
       auto name = file->filePath ().toString ();
@@ -280,12 +280,12 @@ QStringList QtcCppcheckPlugin::checkableFiles(const Node *node, bool forceSelect
     }
       break;
 
-    case ProjectNodeType:
-    case FolderNodeType:
-    case VirtualFolderNodeType:
+    case NodeType::Project:
+    case NodeType::Folder:
+    case NodeType::VirtualFolder:
     {
       const FolderNode* folder = (const FolderNode*) node;
-      foreach (const FolderNode* subfolder, folder->subFolderNodes ())
+      foreach (const FolderNode* subfolder, folder->folderNodes ())
       {
         files += checkableFiles (subfolder, false); // force only selected, not its children
       }
